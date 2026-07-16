@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO | Rompiendo Límites</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuentes ultra modernas: Syne (Títulos) y Space Grotesk (Párrafos) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Syne:wght@600;800&display=swap"
+        rel="stylesheet">
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="bg-grid antialiased">
+    <canvas id="brutalCanvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
+
+    <!-- Navbar Minimalista -->
+    <nav class="fixed w-full z-50 top-0 py-4 px-8 flex justify-between items-center bg-[#141414]/80 backdrop-blur-md border-b border-white/10 text-[#F4F1EB] transition-all duration-300">
+        <div class="font-syne text-3xl font-extrabold tracking-tighter animar-letras">ProgramIA</div>
+        <div class="hidden md:flex gap-8 font-semibold uppercase text-sm tracking-widest">
+            <a href="#hero" class="hover:text-[#FF3E1A] transition-colors">Visión</a>
+            <a href="#playground" class="hover:text-[#3ba7e2] transition-colors">Laboratorio</a>
+        </div>
+    </nav>
+
+    <!-- Sección Hero Principal -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 relative">
+        <div class="z-10">
+            <p class="uppercase tracking-[0.5em] text-sm font-bold mb-6 text-[#2A1AFF] reveal-up">Redefiniendo el
+                estándar</p>
+
+            <!-- Aquí aplicamos tu clase animar-letras con un tamaño bestial -->
+            <h1 class="text-[12vw] leading-none font-extrabold tracking-tighter mb-8 text-main animar-letras">
+                ProgramIA
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-xl md:text-2xl font-medium mb-12 text-gray-700 reveal-up"
+                style="animation-delay: 0.2s;">
+                No somos otra plantilla de software. Somos la frecuencia que altera el entorno digital.
+            </p>
+
+            <button class="brutal-btn px-10 py-5 text-lg font-bold font-syne uppercase rounded-none reveal-up"
+                style="animation-delay: 0.4s;">
+                Iniciar Secuencia
+            </button>
+        </div>
+
+        <!-- Círculo decorativo que rota -->
+        <div
+            class="absolute -bottom-20 -left-20 w-96 h-96 border-[1px] border-[#141414] rounded-full flex justify-center items-center opacity-20 animate-[spin_20s_linear_infinite]">
+            <div class="w-full h-[1px] bg-[#141414]"></div>
+            <div class="h-full w-[1px] bg-[#141414] absolute"></div>
+        </div>
+    </section>
+
+    <!-- Sección Interactiva: El Playground (Lo que pediste) -->
+    <section id="playground" class="h-screen w-full flex flex-col justify-center items-center relative cursor-default">
+        <div class="absolute top-10 left-10 z-10 pointer-events-none">
+            <h2 class="text-4xl font-syne font-extrabold">ECOSISTEMA<br>REACTIVO</h2>
+            <p class="mt-2 font-bold text-[#FF3E1A]"><i class="fa-solid fa-computer-mouse mr-2"></i>Mueve el cursor
+                violentamente</p>
+        </div>
+
+        <!-- Estos elementos serán manipulados por el ratón mediante JavaScript -->
+        <div class="magnetic-item" style="top: 30%; left: 20%;">Velocidad</div>
+        <div class="magnetic-item" style="top: 50%; left: 45%;">Diseño Puro</div>
+        <div class="magnetic-item" style="top: 25%; left: 60%;">C++ Core</div>
+        <div class="magnetic-item" style="top: 70%; left: 30%;">NodeJS</div>
+        <div class="magnetic-item" style="top: 65%; left: 70%;">Supabase</div>
+        <div class="magnetic-item" style="top: 40%; left: 80%;">Linux</div>
+        <div class="magnetic-item" style="top: 15%; left: 40%;">Libertad</div>
+    </section>
+
+    <!-- Footer Editorial -->
+    <footer class="py-20 px-10 bg-[#141414] text-[#F4F1EB]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end">
+            <div>
+                <h3 class="text-6xl font-syne font-extrabold mb-4 animar-letras">ProgramIA</h3>
+                <p class="text-gray-400">Diseñado para los que no siguen reglas.</p>
+            </div>
+            <div class="mt-10 md:mt-0 text-right font-bold uppercase tracking-widest text-sm">
+                <p>2026 © Todos los derechos reservados</p>
+                <p class="text-[#FF3E1A] mt-2">Hecho con código e instinto</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script/script.js"></script>
+</body>
+</html>
