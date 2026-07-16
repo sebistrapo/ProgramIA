@@ -180,3 +180,130 @@ function animateCanvas() {
 
 initCanvas();
 animateCanvas();
+
+const cards = document.querySelectorAll('.brutal-card');
+
+cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        // Obtener dimensiones y posición de la tarjeta
+        const rect = card.getBoundingClientRect();
+
+        // Coordenadas del ratón relativas a la tarjeta
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Encontrar el centro de la tarjeta
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Calcular la rotación en base a qué tan lejos está el ratón del centro
+        // Dividimos por un valor para suavizar el ángulo (máximo unos 10-15 grados)
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+
+        // Aplicamos el levantamiento (-10px) y la rotación 3D
+        card.style.transform = `translate(-10px, -10px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    // Cuando el ratón sale de la tarjeta, vuelve a su estado original
+    card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s ease-out, box-shadow 0.3s ease';
+        card.style.transform = `translate(0px, 0px) perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+    });
+
+    // Al volver a entrar, quitamos la transición de 0.5s para que siga el ratón instantáneamente
+    card.addEventListener('mouseenter', () => {
+        card.style.transition = 'transform 0.2s ease';
+    });
+});
+
+const cmdButtons = document.querySelectorAll('.cmd-btn');
+const terminalOutput = document.getElementById('terminal-output');
+
+// Base de datos de respuestas para cada comando
+const terminalData = {
+    'whoami': `
+    Usuario: Admin del Ecosistema
+    Estado: Activo
+    Permisos: Superusuario [SUDO]
+    Especialidad: Desarrollo de aplicaciones y gestión de entornos Linux.
+    Ubicación: Operando desde la base central.
+    `,
+    'cat stack.log': `
+    Cargando dependencias tecnológicas...
+    [OK] Node.js - Motor backend activado.
+    [OK] C++ & Python - Compiladores listos.
+    [OK] PHP & MySQL - Bases de datos operativas.
+    [OK] Supabase - API conectada con éxito.
+    [INFO] Interfaz: UI v8.5 optimizada.
+    `,
+    'git log --latest': `
+    commit 8f9a2b3c (HEAD -> main)
+    Author: Echo Dev <echo@system.local>
+    Date: Thu Jul 16 2026
+    
+    feat: Inicializada la Landing Page Brutalista
+    - Añadido efecto magnético en Laboratorio.
+    - Implementada lluvia de código en fondo Canvas.
+    - Optimizada estructura HTML/CSS.
+    `,
+    './init_inventory.sh': `
+    Iniciando script de despliegue de aplicativo...
+    > Conectando a Supabase... [Conectado]
+    > Verificando tablas de stock... [Verificado]
+    > Sincronizando repositorios Git locales con el servidor...
+    [SUCCESS] El sistema de inventarios está corriendo en el puerto 3000.
+    `
+};
+
+let typeWriterTimeout; // Para detener la escritura si se presiona otro botón rápido
+
+function typeWriterEffect(text, element) {
+    // Limpiamos el timeout anterior si el usuario hace clic rápido en varios botones
+    clearTimeout(typeWriterTimeout); 
+    
+    // El prefijo estándar de la terminal
+    const prefix = '<span class="text-[#2A1AFF]">programia@root</span>:<span class="text-[#FF3E1A]">~</span>$ ';
+    element.innerHTML = prefix;
+    
+    let i = 0;
+    // Quitamos los espacios en blanco extra del inicio del texto
+    const chars = text.trim().split(''); 
+
+    function type() {
+        if (i < chars.length) {
+            // Reemplazar saltos de línea por <br> para HTML
+            const char = chars[i] === '\n' ? '<br>' : chars[i];
+            element.innerHTML += char;
+            i++;
+            // Velocidad aleatoria de escritura (entre 5ms y 30ms) para que parezca más real
+            typeWriterTimeout = setTimeout(type, Math.random() * 25 + 5);
+        } else {
+            // Cuando termina, añadir el cursor parpadeante
+            element.innerHTML += '<span class="animate-pulse bg-white w-2 h-4 inline-block ml-1 align-middle"></span>';
+        }
+    }
+    
+    type();
+}
+
+// Event Listeners para los botones
+cmdButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const cmd = btn.getAttribute('data-cmd');
+        
+        // Quitar la clase 'activa' visual de todos los botones
+        cmdButtons.forEach(b => b.classList.remove('bg-[#FF3E1A]', 'text-white'));
+        
+        // Añadir color sólido al botón clickeado
+        btn.classList.add('bg-[#FF3E1A]', 'text-white');
+        
+        // Mostrar primero el comando que se "escribió" y luego la respuesta
+        terminalOutput.innerHTML = `<span class="text-[#2A1AFF]">programia@root</span>:<span class="text-white">~</span>$ ${cmd}<br><br>`;
+        
+        // Retraso pequeño antes de escupir la respuesta (simula carga de la red)
+        setTimeout(() => {
+            typeWriterEffect(terminalData[cmd], terminalOutput);
+        }, 400);
+    });
+});
