@@ -313,7 +313,7 @@ navLinks.forEach(link => {
                 { filter: "blur(0px) contrast(1)" }, // Estado seguro de inicio
                 {
                     filter: "blur(5px) contrast(1.2)", 
-                    duration: 0.3, // Un poco más rápido para mayor fluidez
+                    duration: .5, // Un poco más rápido para mayor fluidez
                     yoyo: true, 
                     repeat: 1,
                     // BUENA PRÁCTICA 3: Limpiar el CSS inline al terminar para evitar bugs de renderizado
