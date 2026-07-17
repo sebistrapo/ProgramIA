@@ -13,10 +13,9 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    cursor: crosshair;
-    /* Cursor creativo */
+    cursor: default;
 }
 
 h1,
@@ -91,10 +90,6 @@ h3,
     cursor: default;
 }
 
-.leading-none {
-    font-size: 5rem !important;
-}
-
 .brutal-card {
     border: 4px solid var(--text-main);
     box-shadow: 12px 12px 0px var(--text-main);
@@ -105,4 +100,66 @@ h3,
 
 .brutal-card:hover {
     box-shadow: 20px 20px 0px var(--text-main);
+}
+
+.panel {
+    flex: 1;
+    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
+}
+
+/* Al pasar el cursor, el panel ocupa 3 veces más espacio que los demás */
+.panel:hover {
+    flex: 3;
+}
+
+/* Oculta los párrafos cuando no están expandidos para evitar que rompan el diseño */
+.panel:not(:hover) p {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hidden-on-mobile { display: none; }
+    .panel:hover .hidden-on-mobile, .panel:focus .hidden-on-mobile { display: block; }
+}
+
+@media (max-width: 767px) {
+    /* Forzamos que las tarjetas no dependan del hover en móvil */
+    .panel:hover { flex: initial !important; }
+    .panel p.hidden-on-mobile { display: block !important; }
+    
+    /* Estado Cerrado (Límite estricto) */
+    .panel { 
+        min-height: 120px !important; 
+        max-height: 120px !important; /* Lo forzamos a estar cerrado */
+        /* Animamos el max-height para que la apertura sea fluida */
+        transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease; 
+    }
+    .panel-content p { 
+        max-height: 0; 
+        opacity: 0; 
+        transition: all 0.5s ease;
+        margin-top: 0;
+        padding-top: 0;
+        border-color: transparent !important;
+    }
+    
+    /* Estado Abierto (.active) - Le damos espacio de sobra */
+    .panel.active { 
+        /* 600px es espacio de sobra para que el fondo azul baje hasta cubrir todo el texto */
+        max-height: 600px !important; 
+    }
+    .panel.active .panel-content p {
+        max-height: 400px; 
+        opacity: 1;
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+    
+    /* Pintamos el borde superior del párrafo según la tarjeta que se abra */
+    .panel:nth-child(1).active .panel-content p { border-color: #141414 !important; }
+    .panel:nth-child(2).active .panel-content p { border-color: #141414 !important; }
+    .panel:nth-child(3).active .panel-content p { border-color: #F4F1EB !important; }
+
+    /* Efecto extra: el número gigante de fondo crece cuando está activa */
+    .panel.active .absolute { transform: scale(1.1); }
 }

@@ -8,12 +8,11 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fuentes ultra modernas: Syne (Títulos) y Space Grotesk (Párrafos) -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Syne:wght@600;800&display=swap"
-        rel="stylesheet">
-    <!-- GSAP -->
+        
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -22,34 +21,34 @@
     <canvas id="brutalCanvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
 
     <!-- Navbar Minimalista -->
-    <nav
-        class="fixed w-full z-50 top-0 py-4 px-8 flex justify-between items-center bg-[#141414]/80 backdrop-blur-md border-b border-white/10 text-[#F4F1EB] transition-all duration-300">
-        <div class="font-syne text-3xl font-extrabold tracking-tighter animar-letras">ProgramIA</div>
-        <div class="hidden md:flex gap-8 font-semibold uppercase text-sm tracking-widest">
+    <nav class="fixed w-full z-50 top-0 py-3 md:py-4 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center bg-[#141414]/90 backdrop-blur-md border-b border-white/10 text-[#F4F1EB] transition-all duration-300 gap-2 md:gap-0">
+        <a href="#hero" class="font-syne text-2xl md:text-3xl font-extrabold tracking-tighter animar-letras block">ProgramIA</a>
+        <div class="flex gap-4 md:gap-8 font-semibold uppercase text-[10px] md:text-sm tracking-widest">
             <a href="#hero" class="hover:text-[#FF3E1A] transition-colors">Visión</a>
             <a href="#playground" class="hover:text-[#3ba7e2] transition-colors">Laboratorio</a>
+            <a href="#terminal-section" class="hover:text-[darkviolet] transition-colors">Consola</a>
         </div>
     </nav>
 
     <!-- Sección Hero Principal -->
     <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 relative">
         <div class="z-10">
-            <p class="uppercase tracking-[0.5em] text-sm font-bold mb-6 text-[#2A1AFF] reveal-up">Redefiniendo el
-                estándar</p>
+            <p class="uppercase tracking-[0.5em] text-sm font-bold mb-6 text-[#2A1AFF] reveal-up">Tu futuro empieza hoy
+            </p>
 
-            <!-- Aquí aplicamos tu clase animar-letras con un tamaño bestial -->
-            <h1 class="text-[12vw] leading-none font-extrabold tracking-tighter mb-8 text-main animar-letras">
+            <!-- Título Principal -->
+           <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none font-extrabold tracking-tighter mb-6 md:mb-8 text-main animar-letras mt-20 md:mt-0 whitespace-nowrap">
                 ProgramIA
             </h1>
 
             <p class="max-w-2xl mx-auto text-xl md:text-2xl font-medium mb-12 text-gray-700 reveal-up"
                 style="animation-delay: 0.2s;">
-                No somos otra plantilla de software. Somos la frecuencia que altera el entorno digital.
+                Aprende programación e Inteligencia Artificial desde cero absoluto. Sin complicaciones, con proyectos
+                reales y a tu propio ritmo.
             </p>
 
-            <button class="brutal-btn px-10 py-5 text-lg font-bold font-syne uppercase rounded-none reveal-up"
-                style="animation-delay: 0.4s;">
-                Iniciar Secuencia
+            <button id="btn-abrir-modal" class="brutal-btn px-10 py-5 text-lg font-bold font-syne uppercase rounded-none reveal-up" style="animation-delay: 0.4s;">
+                Inscripción Previa
             </button>
         </div>
 
@@ -61,136 +60,159 @@
         </div>
     </section>
 
-    <!-- Sección Interactiva: El Playground (Lo que pediste) -->
-    <section id="playground"
-        class="min-h-screen w-full flex flex-col items-center justify-center relative py-24 bg-[#E8E4D9] border-t-4 border-b-4 border-[#141414] overflow-hidden cursor-default">
-        <div class="text-center mb-16 z-10">
-            <h2 class="text-5xl md:text-7xl font-syne font-extrabold uppercase mb-4 text-main">Laboratorio</h2>
-            <p class="font-bold text-[#FF3E1A] text-xl"><i class="fa-solid fa-cube mr-2"></i>Interactúa con los módulos
-            </p>
+    <!-- Sección Interactiva: Rutas de Aprendizaje (Tarjetas) -->
+    <section id="playground" class="min-h-screen w-full flex flex-col items-center justify-center relative py-24 bg-[#E8E4D9] border-t-4 border-b-4 border-[#141414] overflow-hidden">
+        <div class="text-center mb-12 z-10">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight font-syne font-extrabold uppercase mb-4 text-main animar-letras">Rutas de Estudio</h2>
+            <p class="font-bold text-[#FF3E1A] text-xl"><i class="fa-solid fa-hand-pointer mr-2"></i>Expande las tarjetas</p>
         </div>
 
-        <!-- Grid de Tarjetas Brutalistas -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl px-6 z-10">
-
-            <!-- Tarjeta 1 -->
-            <div class="brutal-card bg-white p-8 flex flex-col justify-between">
-                <div>
-                    <div
-                        class="w-14 h-14 bg-[#141414] text-white flex justify-center items-center text-2xl font-bold mb-6 border-2 border-[#141414] shadow-[4px_4px_0px_#2A1AFF]">
-                        01</div>
-                    <h3 class="text-3xl font-syne font-extrabold mb-4 uppercase">Node.js & Supabase</h3>
+        <!-- Contenedor del Acordeón -->
+        <div class="flex flex-col md:flex-row w-full max-w-7xl h-auto md:h-[550px] px-4 md:px-6 gap-4 md:gap-4 z-10">
+            
+            <!-- Panel 1 -->
+            <div class="panel bg-white border-4 border-[#141414] shadow-[4px_4px_0px_#2A1AFF] md:shadow-[8px_8px_0px_#2A1AFF] relative overflow-hidden group flex overflow-hidden w-full flex-col items-start justify-end p-4 md:p-6 cursor-pointer min-h-[120px]">
+                <div class="absolute -top-4 -right-2 md:-bottom-10 md:-right-4 text-7xl md:text-[150px] font-syne font-black text-gray-100 opacity-50 z-0 pointer-events-none transition-transform duration-500 group-hover:scale-110">01</div>
+                <div class="panel-content z-10 flex flex-col justify-end h-full w-full">
+                    <h3 class="text-2xl md:text-1xl lg:text-2.5xl font-syne font-extrabold uppercase mb-1 md:mb-3 leading-none break-words">Desarrollo Web</h3>
+                    <p class="text-gray-700 font-medium text-sm md:text-lg leading-relaxed border-t-2 md:border-t-4 border-[#141414] pt-2 md:pt-4 opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 hidden-on-mobile">
+                        Crea páginas web y aplicaciones útiles (como tiendas online o sistemas de inventario) paso a paso. Verás resultados en tu pantalla desde el primer día.
+                    </p>
                 </div>
-                <p class="text-gray-700 font-medium text-lg leading-relaxed border-t-4 border-[#141414] pt-4 mt-4">
-                    Arquitectura backend optimizada para sistemas de inventario y bases de datos relacionales en tiempo
-                    real. Escalabilidad sin compromisos.
-                </p>
             </div>
 
-            <!-- Tarjeta 2 -->
-            <div class="brutal-card bg-[#FF3E1A] text-[#F4F1EB] p-8 flex flex-col justify-between">
-                <div>
-                    <div
-                        class="w-14 h-14 bg-[#F4F1EB] text-[#141414] flex justify-center items-center text-2xl font-bold mb-6 border-2 border-[#141414] shadow-[4px_4px_0px_#141414]">
-                        02</div>
-                    <h3 class="text-3xl font-syne font-extrabold mb-4 uppercase">C++ & Python</h3>
+            <!-- Panel 2 -->
+            <div class="panel bg-[#FF3E1A] border-4 border-[#141414] shadow-[4px_4px_0px_#141414] md:shadow-[8px_8px_0px_#141414] relative overflow-hidden group flex overflow-hidden w-full flex-col items-start justify-end p-4 md:p-6 cursor-pointer text-[#F4F1EB] min-h-[120px]">
+                <div class="absolute -top-4 -right-2 md:-bottom-10 md:-right-4 text-7xl md:text-[150px] font-syne font-black text-black/10 z-0 pointer-events-none transition-transform duration-500 group-hover:scale-110">02</div>
+                <div class="panel-content z-10 flex flex-col justify-end h-full w-full">
+                    <h3 class="text-2xl md:text-1xl lg:text-2.5xl font-syne font-extrabold uppercase mb-1 md:mb-3 leading-none break-words">Python & Lógica</h3>
+                    <p class="text-[#F4F1EB]/90 font-medium text-sm md:text-lg leading-relaxed border-t-2 md:border-t-4 border-[#141414] pt-2 md:pt-4 opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 hidden-on-mobile">
+                        Aprende a pensar como un programador usando lenguajes amigables. Crea tus propias inteligencias artificiales fácilmente y automatiza tu vida.
+                    </p>
                 </div>
-                <p class="text-[#F4F1EB]/90 font-medium text-lg leading-relaxed border-t-4 border-[#141414] pt-4 mt-4">
-                    Potencia nativa y versatilidad. Desde algoritmos de bajo nivel hasta automatización avanzada y
-                    exploración de código abierto.
-                </p>
             </div>
 
-            <!-- Tarjeta 3 -->
-            <div class="brutal-card bg-[#2A1AFF] text-[#F4F1EB] p-8 flex flex-col justify-between">
-                <div>
-                    <div
-                        class="w-14 h-14 bg-[#141414] text-[#F4F1EB] flex justify-center items-center text-2xl font-bold mb-6 border-2 border-[#F4F1EB] shadow-[4px_4px_0px_#FF3E1A]">
-                        03</div>
-                    <h3 class="text-3xl font-syne font-extrabold mb-4 uppercase">Entorno Linux</h3>
+            <!-- Panel 3 -->
+            <div class="panel bg-[#2A1AFF] border-4 border-[#F4F1EB] shadow-[4px_4px_0px_#FF3E1A] md:shadow-[8px_8px_0px_#FF3E1A] relative overflow-hidden group flex overflow-hidden w-full flex-col items-start justify-end p-4 md:p-6 cursor-pointer text-[#F4F1EB] min-h-[120px]">
+                <div class="absolute -top-4 -right-2 md:-bottom-10 md:-right-4 text-7xl md:text-[150px] font-syne font-black text-white/10 z-0 pointer-events-none transition-transform duration-500 group-hover:scale-110">03</div>
+                <div class="panel-content z-10 flex flex-col justify-end h-full w-full">
+                    <h3 class="text-2xl md:text-1xl lg:text-2.5xl font-syne font-extrabold uppercase mb-1 md:mb-3 leading-none break-words">Domina tu PC</h3>
+                    <p class="text-[#F4F1EB]/90 font-medium text-sm md:text-lg leading-relaxed border-t-2 md:border-t-4 border-[#F4F1EB] pt-2 md:pt-4 opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 hidden-on-mobile">
+                        Pierde el miedo a equivocarte. Aprende cómo funcionan las computadoras por dentro (sistemas Linux/Ubuntu) y descifra los comandos como un experto.
+                    </p>
                 </div>
-                <p class="text-[#F4F1EB]/90 font-medium text-lg leading-relaxed border-t-4 border-[#F4F1EB] pt-4 mt-4">
-                    Desarrollo nativo en ecosistemas basados en Ubuntu. Control total sobre la terminal y gestión
-                    absoluta de los recursos del sistema.
-                </p>
             </div>
 
         </div>
     </section>
 
+    <!-- Sección Interactiva: La Terminal (Minijuego) -->
     <section id="terminal-section" class="py-24 px-6 bg-[#141414] text-[#F4F1EB] relative border-b-4 border-white/10">
         <div class="max-w-5xl mx-auto">
 
             <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-6xl font-syne font-extrabold uppercase mb-4 text-[#FF3E1A]">Acceso al Núcleo
-                </h2>
-                <p class="font-bold text-gray-400">Ejecuta comandos para explorar la arquitectura del sistema.</p>
+                <h2 class="text-4xl md:text-6xl font-syne font-extrabold uppercase mb-4 text-[#FF3E1A]">Tu Primera
+                    Consola</h2>
+                <p class="font-bold text-gray-400">Los programadores usan comandos para hablar con la máquina. ¡Haz clic
+                    en uno y mira qué pasa!</p>
             </div>
 
-            <!-- Contenedor de la Terminal (Diseño Brutalista/Retro) -->
+            <!-- Contenedor de la Terminal -->
             <div class="flex flex-col md:flex-row border-4 border-[#F4F1EB] shadow-[12px_12px_0px_#2A1AFF] bg-black">
 
-                <!-- Panel Lateral: Lista de Comandos -->
+                <!-- Panel Lateral -->
                 <div class="md:w-1/3 border-b-4 md:border-b-0 md:border-r-4 border-[#F4F1EB] p-6 bg-[#1A1A1A]">
-                    <h3 class="text-[#2A1AFF] font-bold mb-4 uppercase tracking-widest text-sm">>_ Comandos</h3>
+                    <h3 class="text-[#2A1AFF] font-bold mb-4 uppercase tracking-widest text-sm">>_ Haz clic en un botón
+                    </h3>
                     <ul class="space-y-4">
                         <li>
                             <button
                                 class="cmd-btn w-full text-left font-bold py-3 px-4 border-2 border-transparent hover:border-[#FF3E1A] hover:text-[#FF3E1A] transition-colors focus:bg-[#FF3E1A] focus:text-white"
-                                data-cmd="whoami">
-                                [~] whoami
+                                data-cmd="sobre_nosotros">
+                                [~] sobre_nosotros
                             </button>
                         </li>
                         <li>
                             <button
                                 class="cmd-btn w-full text-left font-bold py-3 px-4 border-2 border-transparent hover:border-[#FF3E1A] hover:text-[#FF3E1A] transition-colors focus:bg-[#FF3E1A] focus:text-white"
-                                data-cmd="cat stack.log">
-                                [~] cat stack.log
+                                data-cmd="por_que_ia">
+                                [~] por_que_ia
                             </button>
                         </li>
                         <li>
                             <button
                                 class="cmd-btn w-full text-left font-bold py-3 px-4 border-2 border-transparent hover:border-[#FF3E1A] hover:text-[#FF3E1A] transition-colors focus:bg-[#FF3E1A] focus:text-white"
-                                data-cmd="git log --latest">
-                                [~] git log --latest
+                                data-cmd="requisitos">
+                                [~] requisitos
                             </button>
                         </li>
                         <li>
                             <button
                                 class="cmd-btn w-full text-left font-bold py-3 px-4 border-2 border-transparent hover:border-[#FF3E1A] hover:text-[#FF3E1A] transition-colors focus:bg-[#FF3E1A] focus:text-white"
-                                data-cmd="./init_inventory.sh">
-                                [~] ./init_inventory.sh
+                                data-cmd="./empezar_curso.sh">
+                                [~] ./empezar_curso.sh
                             </button>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Pantalla de Salida de la Terminal -->
-                <div class="md:w-2/3 p-6 font-mono text-sm md:text-base relative h-80 overflow-y-auto">
-                    <!-- Barra superior estilo ventana -->
-                    <div class="text-right absolute top-0 left-0 w-full flex gap-2 p-3 bg-[#1A1A1A] border-b border-gray-800">
-                        <div class=" w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class=" w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class=" w-3 h-3 rounded-full bg-green-500"></div>
+                <!-- Pantalla de Salida -->
+                <div class="md:w-2/3 p-4 md:p-6 font-mono text-xs sm:text-sm md:text-base relative h-64 md:h-80 overflow-y-auto">
+                    <div class="absolute top-0 left-0 w-full flex gap-2 p-3 bg-[#1A1A1A] border-b border-gray-800">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
-                    <div id="terminal-output" class="mt-10 text-gray-300 whitespace-pre-wrap"><span class="text-[#2A1AFF]">programia@root</span>:<span class="text-white">~</span>$ Esperando entrada del usuario...</div>
+                    <div id="terminal-output" class="mt-10 text-gray-300 whitespace-pre-wrap break-words pr-2"><span class="text-[#2A1AFF]">estudiante@programia</span>:<span class="text-white">~</span>$ Esperando instrucción...</div>
                 </div>
             </div>
+        </div>
     </section>
 
-    <!-- Footer Editorial -->
-    <footer class="py-20 px-10 bg-[#141414] text-[#F4F1EB]">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end">
+    <!-- Footer -->
+    <footer class="py-12 md:py-20 px-6 md:px-10 bg-[#141414] text-[#F4F1EB]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end text-center md:text-left gap-8 md:gap-0">
             <div>
-                <h3 class="text-6xl font-syne font-extrabold mb-4 animar-letras">ProgramIA</h3>
-                <p class="text-gray-400">Diseñado para los que no siguen reglas.</p>
+                <h3 class="text-4xl md:text-6xl font-syne font-extrabold mb-2 md:mb-4 animar-letras whitespace-nowrap">ProgramIA</h3>
+                <p class="text-gray-400 text-sm md:text-base">Diseñado para los que no siguen reglas.</p>
             </div>
-            <div class="mt-10 md:mt-0 text-right font-bold uppercase tracking-widest text-sm">
+            <div class="font-bold uppercase tracking-widest text-xs md:text-sm">
                 <p>2026 © Todos los derechos reservados</p>
-                <p class="text-[#FF3E1A] mt-2">Hecho con código e instinto</p>
+                <p class="text-[#FF3E1A] mt-1 md:mt-2">Hecho con código e instinto</p>
             </div>
         </div>
     </footer>
+
+    <!-- Formulario Inscripción -->
+    <div id="modal-inscripcion" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <!-- Fondo oscuro con efecto cristal (Blur) -->
+        <div id="modal-bg" class="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer"></div>
+        
+        <!-- Contenedor del Formulario -->
+        <div id="modal-content" class="relative bg-[#F4F1EB] p-6 md:p-12 border-4 border-[#141414] shadow-[8px_8px_0px_#2A1AFF] md:shadow-[16px_16px_0px_#2A1AFF] w-[95%] sm:w-[90%] max-w-lg max-h-[90vh]">
+            <!-- Botón de Cerrar (X) -->
+            <button id="btn-cerrar-modal" class="absolute -top-4 -right-4 w-12 h-12 bg-[#FF3E1A] text-white border-2 border-[#141414] font-syne font-extrabold text-xl flex items-center justify-center hover:bg-[#141414] transition-colors shadow-[4px_4px_0px_#141414] hover:translate-x-1 hover:translate-y-1 hover:shadow-none z-10">
+                X
+            </button>
+            
+            <h3 class="font-syne text-3xl font-extrabold mb-2 uppercase text-[#141414]">Únete a la Resistencia</h3>
+            <p class="text-gray-600 font-medium mb-6">Asegura tu cupo en ProgramIA. Cero spam, solo código puro.</p>
+            
+            <form class="space-y-5">
+                <div>
+                    <label class="block font-bold text-sm uppercase mb-1 text-[#141414]">Nombre Completo</label>
+                    <input id="name" type="text" class="w-full bg-white border-2 border-[#141414] p-3 font-medium text-[#141414] focus:outline-none focus:border-[#2A1AFF] focus:shadow-[4px_4px_0px_#2A1AFF] transition-all" placeholder="Ej. Ada Lovelace">
+                </div>
+                <div>
+                    <label class="block font-bold text-sm uppercase mb-1 text-[#141414]">Correo Electrónico</label>
+                    <input id="email" type="email" class="w-full bg-white border-2 border-[#141414] p-3 font-medium text-[#141414] focus:outline-none focus:border-[#2A1AFF] focus:shadow-[4px_4px_0px_#2A1AFF] transition-all" placeholder="hola@futuro.com">
+                </div>
+                <button id="btn-enviar-inscripcion" type="button" class="brutal-btn w-full mt-4 py-4 text-lg font-bold font-syne uppercase">
+                    Asegurar mi cupo
+                </button>
+            </form>
+        </div>
+    </div>
     <script src="script/script.js"></script>
 </body>
 

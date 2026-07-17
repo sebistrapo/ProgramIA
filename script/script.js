@@ -10,13 +10,17 @@ document.querySelectorAll('.animar-letras').forEach(elemento => {
 // 2. ANIMACIONES GSAP DE ENTRADA
 gsap.registerPlugin(ScrollTrigger);
 
-gsap.from(".reveal-up", {
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    stagger: 0.2,
-    ease: "power4.out"
-});
+gsap.fromTo(".reveal-up",
+    { y: 50, opacity: 0 }, 
+    { 
+        y: 0, 
+        opacity: 1, 
+        duration: 1, 
+        stagger: 0.2, 
+        ease: "power4.out",
+        clearProps: "all" /* ESTO ES LA CLAVE: Limpia el CSS al terminar */
+    }
+);
 
 // 3. LA MAGIA DEL PLAYGROUND (FÍSICA DE REPULSIÓN DEL RATÓN)
 const playground = document.getElementById('playground');
@@ -76,14 +80,14 @@ playground.addEventListener('mouseleave', () => {
 const bCanvas = document.getElementById('brutalCanvas');
 const bCtx = bCanvas.getContext('2d');
 
-let w, h;
+let h, w;
 let textParticles = [];
 
 // Palabras y fragmentos que flotarán en el fondo
 const techWords = [
     'ECHO', 'C++', 'Python', 'Node.js', 'Supabase',
     'Linux', 'Ubuntu', 'PHP', 'MySQL', 'Termux',
-    '=>', '{...}', '</>', 'sudo apt-get', 'sys.stdout', '0101'
+    '=>', '{...}', '</>', 'sudo apt-get', 'sys.stdout', '0101', '[~]'
 ];
 
 // Colores de la paleta Neo-Brutalista
@@ -220,66 +224,53 @@ cards.forEach(card => {
 const cmdButtons = document.querySelectorAll('.cmd-btn');
 const terminalOutput = document.getElementById('terminal-output');
 
-// Base de datos de respuestas para cada comando
+// Base de datos de respuestas adaptada para principiantes (Sin indentación)
 const terminalData = {
-    'whoami': `
-    Usuario: Admin del Ecosistema
-    Estado: Activo
-    Permisos: Superusuario [SUDO]
-    Especialidad: Desarrollo de aplicaciones y gestión de entornos Linux.
-    Ubicación: Operando desde la base central.
-    `,
-    'cat stack.log': `
-    Cargando dependencias tecnológicas...
-    [OK] Node.js - Motor backend activado.
-    [OK] C++ & Python - Compiladores listos.
-    [OK] PHP & MySQL - Bases de datos operativas.
-    [OK] Supabase - API conectada con éxito.
-    [INFO] Interfaz: UI v8.5 optimizada.
-    `,
-    'git log --latest': `
-    commit 8f9a2b3c (HEAD -> main)
-    Author: Echo Dev <echo@system.local>
-    Date: Thu Jul 16 2026
-    
-    feat: Inicializada la Landing Page Brutalista
-    - Añadido efecto magnético en Laboratorio.
-    - Implementada lluvia de código en fondo Canvas.
-    - Optimizada estructura HTML/CSS.
-    `,
-    './init_inventory.sh': `
-    Iniciando script de despliegue de aplicativo...
-    > Conectando a Supabase... [Conectado]
-    > Verificando tablas de stock... [Verificado]
-    > Sincronizando repositorios Git locales con el servidor...
-    [SUCCESS] El sistema de inventarios está corriendo en el puerto 3000.
-    `
+    'sobre_nosotros': `Hola, somos ProgramIA.
+Nuestra misión es demostrarte que programar no es solo para genios de las matemáticas. 
+Si sabes seguir instrucciones paso a paso, puedes aprender a crear tecnología increíble. 
+Te acompañaremos desde tu primera línea de código hasta tu primer proyecto real.`,
+
+    'por_que_ia': `¿Por qué combinamos programación con Inteligencia Artificial?
+[1] Porque la IA es como un profesor particular disponible 24/7.
+[2] Te ayuda a encontrar errores en tu trabajo más rápido.
+[3] Te explicamos cómo usar herramientas de IA para que programes el doble de rápido.
+¡El futuro ya está aquí, no te quedes atrás!`,
+
+    'requisitos': `Verificando requisitos de tu sistema...
+[OK] Ganas de aprender.
+[OK] Una computadora con conexión a internet.
+[INFO] ¿Necesito saber matemáticas complejas? -> FALSO.
+[INFO] ¿Necesito un equipo ultra potente? -> FALSO.
+Estás 100% listo para comenzar.`,
+
+    './empezar_curso.sh': `Iniciando proceso de inscripción...
+> Cargando tu perfil de estudiante... [Completado]
+> Preparando primer módulo interactivo... [Completado]
+> Desbloqueando acceso a la comunidad... [Completado]
+
+[ÉXITO] ¡Bienvenido a ProgramIA! Haz clic en el botón de arriba para ver los cursos.`
 };
 
-let typeWriterTimeout; // Para detener la escritura si se presiona otro botón rápido
+let typeWriterTimeout; 
 
 function typeWriterEffect(text, element) {
-    // Limpiamos el timeout anterior si el usuario hace clic rápido en varios botones
     clearTimeout(typeWriterTimeout); 
     
-    // El prefijo estándar de la terminal
-    const prefix = '<span class="text-[#2A1AFF]">programia@root</span>:<span class="text-[#FF3E1A]">~</span>$ ';
+    // Cambié el nombre del usuario de la consola a algo más inmersivo
+    const prefix = '<span class="text-[#2A1AFF]">estudiante@programia</span>:<span class="text-[#FF3E1A]">~</span>$ ';
     element.innerHTML = prefix;
     
     let i = 0;
-    // Quitamos los espacios en blanco extra del inicio del texto
-    const chars = text.trim().split(''); 
-
+    const chars = text.split('\n').map(line => line.trim()).join('\n').trim().split('');
+    
     function type() {
         if (i < chars.length) {
-            // Reemplazar saltos de línea por <br> para HTML
             const char = chars[i] === '\n' ? '<br>' : chars[i];
             element.innerHTML += char;
             i++;
-            // Velocidad aleatoria de escritura (entre 5ms y 30ms) para que parezca más real
             typeWriterTimeout = setTimeout(type, Math.random() * 25 + 5);
         } else {
-            // Cuando termina, añadir el cursor parpadeante
             element.innerHTML += '<span class="animate-pulse bg-white w-2 h-4 inline-block ml-1 align-middle"></span>';
         }
     }
@@ -287,23 +278,131 @@ function typeWriterEffect(text, element) {
     type();
 }
 
-// Event Listeners para los botones
+// Event Listeners (Se mantiene igual)
 cmdButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const cmd = btn.getAttribute('data-cmd');
-        
-        // Quitar la clase 'activa' visual de todos los botones
         cmdButtons.forEach(b => b.classList.remove('bg-[#FF3E1A]', 'text-white'));
-        
-        // Añadir color sólido al botón clickeado
         btn.classList.add('bg-[#FF3E1A]', 'text-white');
         
-        // Mostrar primero el comando que se "escribió" y luego la respuesta
-        terminalOutput.innerHTML = `<span class="text-[#2A1AFF]">programia@root</span>:<span class="text-white">~</span>$ ${cmd}<br><br>`;
+        // Mostrar el comando clickeado con el nuevo usuario
+        terminalOutput.innerHTML = `<span class="text-[#2A1AFF]">estudiante@programia</span>:<span class="text-white">~</span>$ ${cmd}<br><br>`;
         
-        // Retraso pequeño antes de escupir la respuesta (simula carga de la red)
         setTimeout(() => {
             typeWriterEffect(terminalData[cmd], terminalOutput);
         }, 400);
     });
+});
+
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+
+        if(targetSection) {
+            // BUENA PRÁCTICA 1: Matar animaciones previas para evitar que se amontonen si el usuario hace doble clic rápido
+            gsap.killTweensOf("section");
+            gsap.killTweensOf(window);
+
+            // BUENA PRÁCTICA 2: Usar fromTo para obligar al navegador a iniciar desde 0 siempre
+            gsap.fromTo("section", 
+                { filter: "blur(0px) contrast(1)" }, // Estado seguro de inicio
+                {
+                    filter: "blur(5px) contrast(1.2)", 
+                    duration: 0.3, // Un poco más rápido para mayor fluidez
+                    yoyo: true, 
+                    repeat: 1,
+                    // BUENA PRÁCTICA 3: Limpiar el CSS inline al terminar para evitar bugs de renderizado
+                    onComplete: () => gsap.set("section", { clearProps: "filter" }) 
+                }
+            );
+
+            // Animamos el scroll hacia la sección
+            gsap.to(window, {
+                duration: 0.8, // Sincronizamos la duración para que se sienta conectado
+                scrollTo: {
+                    y: targetSection, 
+                },
+                ease: "power3.inOut"
+            });
+        }
+    });
+});
+
+const btnAbrirModal = document.getElementById('btn-abrir-modal');
+const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+const modalOverlay = document.getElementById('modal-inscripcion');
+const modalBg = document.getElementById('modal-bg');
+const modalContent = document.getElementById('modal-content');
+
+// Función para abrir
+btnAbrirModal.addEventListener('click', () => {
+    modalOverlay.classList.remove('hidden');
+    modalOverlay.classList.remove('opacity-0'); // Añadir esto
+    
+    // Animación de entrada
+    gsap.fromTo(modalBg, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    gsap.fromTo(modalContent, 
+        { y: 50, opacity: 0, scale: 0.9 }, 
+        { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.2)" }
+    );
+});
+
+// Función para cerrar
+const cerrarModal = () => {
+    // Animación de salida
+    gsap.to(modalBg, { opacity: 0, duration: 0.3 });
+    gsap.to(modalContent, { 
+        y: 20, opacity: 0, scale: 0.95, duration: 0.3, 
+        onComplete: () => {
+            modalOverlay.classList.add('opacity-0'); // Añadir esto
+            setTimeout(() => modalOverlay.classList.add('hidden'), 300); // Añadir retraso
+        }
+    });
+};
+
+// Eventos de cierre
+btnCerrarModal.addEventListener('click', cerrarModal);
+modalBg.addEventListener('click', cerrarModal); // Cierra si haces clic en el fondo borroso
+
+const btnEnviarInscripcion = document.getElementById('btn-enviar-inscripcion');
+
+// Evento al dar clic en "Asegurar mi cupo"
+btnEnviarInscripcion.addEventListener('click', () => {
+    btnEnviarInscripcion.textContent = "¡CUPO ASEGURADO!";
+    btnEnviarInscripcion.classList.add('bg-green-500', 'text-white', 'border-green-500');
+    setTimeout(() => {
+        cerrarModal();
+
+        // 3. Restauramos el botón a la normalidad en caso de que vuelvan a abrir el modal después
+        setTimeout(() => {
+            btnEnviarInscripcion.textContent = "Asegurar mi cupo";
+            btnEnviarInscripcion.classList.remove('bg-green-500', 'text-white', 'border-green-500');
+        }, 500);
+    }, 800);
+});
+
+let mm = gsap.matchMedia();
+
+// Esta regla indica que el código solo se ejecutará en pantallas menores a 768px (móviles)
+mm.add("(max-width: 767px)", () => {
+    
+    const panels = document.querySelectorAll('.panel');
+    
+    panels.forEach((panel) => {
+        ScrollTrigger.create({
+            trigger: panel,
+            // Empieza cuando la parte superior de la tarjeta llega al 60% de la pantalla (casi al centro)
+            start: "top 60%", 
+            // Termina cuando la parte inferior de la tarjeta sube más allá del 40% de la pantalla
+            end: "bottom 40%", 
+            // GSAP le pone y le quita la clase "active" automáticamente de forma perfecta
+            toggleClass: "active" 
+        });
+    });
+
 });
