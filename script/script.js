@@ -310,6 +310,32 @@ if (btnEnviarInscripcion) {
     });
 }
 
+// 8. BOOT LOG SEQUENCE (Efecto Arranque del Sistema)
+const logLines = gsap.utils.toArray('.log-line');
+
+if (document.getElementById('boot-sequence')) {
+    // Creamos una línea de tiempo vinculada al scroll
+    let tlBoot = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#boot-sequence",
+            start: "top top", // Inicia cuando la sección toca el tope de la ventana
+            end: "+=1500", // Cuántos píxeles de scroll dura el efecto (ajústalo si quieres que dure más o menos)
+            pin: true, // Fija la pantalla
+            scrub: 1, // Suaviza la animación de las letras al ritmo del scroll
+        }
+    });
+
+    // Animamos cada línea para que aparezca en cascada
+    logLines.forEach((line, i) => {
+        tlBoot.to(line, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out"
+        }, i * 0.4); // El 0.4 es el retraso entre cada línea (stagger manual)
+    });
+}
+
 // 7. ACORDEÓN POR SCROLL (Exclusivo para móviles - ajustado al 50% de la pantalla)
 let mm = gsap.matchMedia();
 
@@ -322,5 +348,49 @@ mm.add("(max-width: 767px)", () => {
             end: "bottom 40%", 
             toggleClass: "active" 
         });
+    });
+});
+
+// 9. LABORATORIO DE ESTILOS (Selector de Color Interactivo)
+const colorPickerInput = document.getElementById('native-color-picker');
+const livePreviewBox = document.getElementById('live-preview-box');
+const colorHexLabel = document.getElementById('color-hex-label');
+const colorPresetButtons = document.querySelectorAll('.color-preset');
+
+function updateSystemColor(hexColor) {
+    if (!livePreviewBox) return;
+    
+    // Cambia el color de fondo de la caja de vista previa
+    livePreviewBox.style.backgroundColor = hexColor;
+    
+    // Actualiza el texto con el código hexadecimal en tiempo real
+    if (colorHexLabel) {
+        colorHexLabel.textContent = hexColor;
+    }
+    
+    // Si el usuario elige un color muy oscuro, cambiamos el texto a blanco para que se lea bien
+    // (Un pequeño toque de lógica de programación aplicada al diseño)
+    if (hexColor === '#141414' || hexColor === '#000000') {
+        livePreviewBox.style.color = '#F4F1EB';
+    } else {
+        livePreviewBox.style.color = '#ffffff';
+    }
+}
+
+// Evento cuando usan la paleta nativa
+if (colorPickerInput) {
+    colorPickerInput.addEventListener('input', (e) => {
+        updateSystemColor(e.target.value);
+    });
+}
+
+// Evento para los botones rápidos de colores de la marca
+colorPresetButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const selectedColor = button.getAttribute('data-color');
+        if (colorPickerInput) {
+            colorPickerInput.value = selectedColor; // Sincroniza el input nativo
+        }
+        updateSystemColor(selectedColor);
     });
 });

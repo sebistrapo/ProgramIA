@@ -2,6 +2,7 @@
         background-color: #f4f4ec;
         color: #111111;
         overflow-x: hidden;
+        cursor: default;
     }
 
     body, .font-sans {
